@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <VBox alignment="CENTER" layoutX="86.0" layoutY="115.0" prefHeight="400.0" prefWidth="600.0" spacing="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label layoutX="225.0" layoutY="115.0" text="Rudis">
+                    <font>
+                        <Font size="60.0" />
+                    </font>
+                </Label>
+                <Label layoutX="264.0" layoutY="200.0" prefHeight="32.0" prefWidth="73.0" text="Versione 0.1" />
+                <Label layoutX="86.0" layoutY="313.0" text="Piattaforma sperimentale per l'osservazione delle competenze degli alunni&#10;Scuola dell'Infanzia, Primaria e Secondaria di 1° Grado" textAlignment="CENTER" />
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

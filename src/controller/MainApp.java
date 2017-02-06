@@ -38,8 +38,7 @@ public class MainApp extends Application {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Rudis - Versione 0.1");
         initRootLayout();
-        //showHomeLayout();
-        showStudentLayout();
+        showHomeLayout();
     }
 
     /**
@@ -47,14 +46,17 @@ public class MainApp extends Application {
      */
     public void initRootLayout() {
         try{
-            //Load root layout from fxml
+            // Load root layout from fxml
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("../view/RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
-            //Show the scene containing the root layout
+            // Show the scene containing the root layout
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
+            // Give the controller access to the main application
+            RootLayoutController controller = loader.getController();
+            controller.setMainApp(this);
         } catch (IOException e) {
             System.out.println("Error in initRootLayout !");
             e.printStackTrace();
@@ -81,7 +83,7 @@ public class MainApp extends Application {
     /**
      * Show the student view inside the root layout.
      */
-    public void showStudentLayout() {
+    public void showStudentLayout(int index) {
         try {
             //Load student layout from fxml
             FXMLLoader loader = new FXMLLoader();
@@ -91,9 +93,49 @@ public class MainApp extends Application {
             rootLayout.setCenter(studentLayout);
             //Give the controller access to the main app
             StudentController controller = loader.getController();
-            controller.setMainApp(this);
+            controller.setMainApp(this, index);
         } catch (IOException e) {
             System.out.println("Error in the showStudentLayout !");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Show the student list inside the root layout.
+     */
+    public void showStudentListLayout() {
+        try {
+            // Load student layout from fxml
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("../view/StudentListLayout.fxml"));
+            AnchorPane studentLayout = (AnchorPane) loader.load();
+            // Set student view into the center of the root layout
+            rootLayout.setCenter(studentLayout);
+            // Give the controller access to the main app
+            StudentListController controller = loader.getController();
+            controller.setMainApp(this);
+        } catch (IOException e) {
+            System.out.println("Error in the showStudentListLayout !");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Show the form for adding a student.
+     */
+    public void showAddStudentLayout() {
+        try {
+            // Load the specific layout
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("../view/AddStudentLayout.fxml"));
+            AnchorPane addStudentLayout = (AnchorPane) loader.load();
+            // Set this view into the center of the root layout
+            rootLayout.setCenter(addStudentLayout);
+            // Give the controller access to the main app
+            AddStudentController controller = loader.getController();
+            controller.setMainApp(this);
+        } catch (IOException e) {
+            System.out.println("Error in the showAddStudentLayout !");
             e.printStackTrace();
         }
     }
@@ -108,7 +150,15 @@ public class MainApp extends Application {
      * Returns the data as an observable list of students.
      * @return
      */
-    public ObservableList<Student> getStudentData() { return studentData; }
+    public ObservableList<Student> getStudentData() { return studentData; } // this is not so SAFE! Return a copy!!!
+
+    /**
+     * Add a student to the observable list of students.
+     * @param student
+     */
+    public void addStudent(Student student) {
+        studentData.add(student);
+    }
 
 }
 

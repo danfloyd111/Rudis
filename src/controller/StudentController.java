@@ -44,7 +44,7 @@ public class StudentController {
     /**
      * Is called by the main application to give a reference back to itself.
      */
-    public void setMainApp(MainApp mApp) {
+    public void setMainApp(MainApp mApp, int index) {
         mainApp = mApp;
         //Add some foo evals to the list
         ObservableList<LocalDate> foo = FXCollections.observableArrayList();
@@ -68,7 +68,7 @@ public class StudentController {
         foo.add(LocalDate.MAX);
         evalDateList.setItems(foo);
         ObservableList<Student> studentData = mApp.getStudentData();
-        Student student = studentData.get(0);
+        Student student = studentData.get(index);
         firstNameLabel.setText(student.getFirstName());
         lastNameLabel.setText(student.getLastName());
         birthdayLabel.setText("Nato il ".concat(student.getBirthday().toString()));

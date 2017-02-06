@@ -58,6 +58,7 @@
             <ListView fx:id="evalDateList" prefHeight="200.0" prefWidth="200.0" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                <children>
+                  <Button mnemonicParsing="false" text="Aggiungi valutazione" />
                   <Button mnemonicParsing="false" text="Modifica i dati" />
                   <Button mnemonicParsing="false" text="Elimina l'alunno" />
                </children>

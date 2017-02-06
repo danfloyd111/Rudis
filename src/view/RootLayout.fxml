@@ -4,33 +4,27 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RootLayoutController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
-                <Menu mnemonicParsing="false" text="Home">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Close" />
-                    </items>
-                </Menu>
                 <Menu mnemonicParsing="false" text="Visualizza">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Delete" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleHome" text="Home" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleStudentVisualization" text="Lista studenti" />
+                  <MenuItem mnemonicParsing="false" text="Competenze" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Configura">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleAddStudent" text="Aggiungi studente" />
+                  <MenuItem mnemonicParsing="false" text="Aggiungi competenza" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Guida">
+                <Menu mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Info &amp; Disclaimer">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
+                        <MenuItem mnemonicParsing="false" text="Guida" />
+                  <MenuItem mnemonicParsing="false" text="Info &amp; Disclaimer" />
                     </items>
                 </Menu>
             </menus>

@@ -21,7 +21,7 @@
                   <MenuItem mnemonicParsing="false" text="Aggiungi competenza" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Help">
+                <Menu mnemonicParsing="false" text="Aiuto">
                     <items>
                         <MenuItem mnemonicParsing="false" text="Guida" />
                   <MenuItem mnemonicParsing="false" text="Info &amp; Disclaimer" />

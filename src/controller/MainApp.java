@@ -21,12 +21,13 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
 
-    private ObservableList<Student> studentData = FXCollections.observableArrayList();
+    private ObservableList<Student> studentData;
 
     /**
      * Default constructor, for now is only for debug purpose.
      */
     public MainApp() {
+        studentData = FXCollections.observableArrayList();
         studentData.add(new Student("John", "Doe", "Classe A", LocalDate.now()));
         studentData.add(new Student("Jane", "Doe", "Classe B", LocalDate.now()));
     }
@@ -156,9 +157,13 @@ public class MainApp extends Application {
      * Add a student to the observable list of students.
      * @param student
      */
-    public void addStudent(Student student) {
-        studentData.add(student);
-    }
+    public void addStudent(Student student) { studentData.add(student); }
+
+    /**
+     * Remove a student from the observable list of students.
+     * @param index
+     */
+    public void removeStudent(int index) { studentData.remove(index); }
 
 }
 

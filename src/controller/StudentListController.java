@@ -25,7 +25,7 @@ public class StudentListController {
         studentList.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if (event.getClickCount()==2) {
+                if (event.getClickCount()==2 && !studentList.getItems().isEmpty()) {
                     int currentIndex = studentList.getSelectionModel().getSelectedIndex();
                     mainApp.showStudentLayout(currentIndex);
                 }

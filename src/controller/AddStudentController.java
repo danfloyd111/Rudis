@@ -59,17 +59,32 @@ public class AddStudentController {
                 String fName = firstName.getText();
                 String lName = lastName.getText();
                 String crs = course.getValue();
+                Alert.AlertType aType;
+                String aTitle, aHeader, aContent;
+                boolean go = false;
                 LocalDate bday = birthday.getValue();
-                if (fName!=null && lName!=null && bday!=null) {
+                if (fName!=null && lName!=null && bday!=null && crs!=null && bday.isBefore(LocalDate.now())) {
                     Student student = new Student(fName, lName, crs, bday);
                     mainApp.addStudent(student);
+                    aType = Alert.AlertType.INFORMATION;
+                    aTitle = "Successo";
+                    aHeader = "Operazione completata";
+                    aContent = "Lo studente è stato correttamente aggiunto al database.";
+                    go = true;
+                } else {
+                    aType = Alert.AlertType.ERROR;
+                    aTitle = "Errore";
+                    aHeader = "Impossibile completare l'aggiunta";
+                    aContent = "Uno dei campi soprastanti è vuoto o contiene un errore.\nControllare che la data di nascita sia antecedente\na quella odierna.";
                 }
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                Alert alert = new Alert(aType);
                 alert.initOwner(mainApp.getPrimaryStage());
-                alert.setTitle("Successo");
-                alert.setHeaderText("Operazione completata");
-                alert.setContentText("Lo studente è stato correttamente aggiunto al database.");
+                alert.setTitle(aTitle);
+                alert.setHeaderText(aHeader);
+                alert.setContentText(aContent);
                 alert.showAndWait();
+                if (go)
+                    mainApp.showStudentListLayout();
             }
         });
         // Setting the handler for the cancel button

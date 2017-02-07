@@ -60,7 +60,7 @@
                <children>
                   <Button mnemonicParsing="false" text="Aggiungi valutazione" />
                   <Button mnemonicParsing="false" text="Modifica i dati" />
-                  <Button mnemonicParsing="false" text="Elimina l'alunno" />
+                  <Button fx:id="deleteButton" mnemonicParsing="false" text="Elimina l'alunno" />
                </children>
             </HBox>
          </children>

@@ -1,24 +1,23 @@
 package controller;
 
-import com.sun.xml.internal.ws.api.FeatureConstructor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Student;
-import sun.applet.Main;
 
 import java.time.LocalDate;
 
 /**
- * Created by dan on 06/02/17.
+ * Created by dan on 08/02/17.
  */
-public class AddStudentController {
+public class ModifyStudentController {
 
     // Reference to the main application
     private MainApp mainApp;
+
+    // Reference to the student being modified
+    private Student oldStudent;
 
     @FXML
     private TextField firstName;
@@ -33,7 +32,7 @@ public class AddStudentController {
     private DatePicker birthday;
 
     @FXML
-    private Button insertButton;
+    private Button modifyButton;
 
     @FXML
     private Button cancelButton;
@@ -52,27 +51,31 @@ public class AddStudentController {
         ObservableList<String> courses = FXCollections.observableArrayList();
         courses.addAll("1A","1B","2A","2B","3A","3B","4A","4B","5A","5B"); // this need to be setted at least from the main app
         course.setItems(courses);
-        // Setting the handler for the insert button
-        insertButton.setOnAction(event -> {
+        // Setting the handle for the modify button
+        modifyButton.setOnAction(event -> {
             String fName = firstName.getText();
             String lName = lastName.getText();
             String crs = course.getValue();
             Alert.AlertType aType;
             String aTitle, aHeader, aContent;
-            boolean go = false;
             LocalDate bday = birthday.getValue();
+            boolean go = false;
             if (fName!=null && lName!=null && bday!=null && crs!=null && bday.isBefore(LocalDate.now())) {
-                Student student = new Student(fName, lName, crs, bday);
-                mainApp.addStudent(student);
+                //Student student = new Student(fName, lName, crs, bday);
+                //mainApp.addStudent(student);
+                oldStudent.setFirstName(fName);
+                oldStudent.setLastName(lName);
+                oldStudent.setCourse(crs);
+                oldStudent.setBirthday(bday);
                 aType = Alert.AlertType.INFORMATION;
                 aTitle = "Successo";
                 aHeader = "Operazione completata";
-                aContent = "Lo studente è stato correttamente aggiunto al database.";
+                aContent = "Lo studente è stato correttamente modificato.";
                 go = true;
             } else {
                 aType = Alert.AlertType.ERROR;
                 aTitle = "Errore";
-                aHeader = "Impossibile completare l'aggiunta";
+                aHeader = "Impossibile completare la modifica";
                 aContent = "Uno dei campi soprastanti è vuoto o contiene un errore.\nControllare che la data di nascita sia antecedente\na quella odierna.";
             }
             Alert alert = new Alert(aType);
@@ -84,7 +87,37 @@ public class AddStudentController {
             if (go)
                 mainApp.showStudentListLayout();
         });
-        // Setting the handler for the cancel button
-        cancelButton.setOnAction(event -> {mainApp.showHomeLayout();});
+        // Setting the handle for the cancel button
+        cancelButton.setOnAction(event -> { mainApp.showStudentListLayout(); });
     }
+
+    /**
+     * First name setter.
+     * @param fName
+     */
+    public void setFirstName(String fName) { firstName.setText(fName); }
+
+    /**
+     * Last name setter.
+     * @param lName
+     */
+    public void setLastName(String lName) { lastName.setText(lName); }
+
+    /**
+     * Course setter.
+     * @param crs
+     */
+    public void setCourse(String crs) { course.setValue(crs); }
+
+    /**
+     * Birthday setter.
+     * @param bDay
+     */
+    public void setBirthday(LocalDate bDay) { birthday.setValue(bDay); }
+
+    /**
+     * Set the student to modify.
+     * @param stud
+     */
+    public void setOldStudent(Student stud) { oldStudent = stud; }
 }

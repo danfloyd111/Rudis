@@ -27,6 +27,10 @@ public class StudentController {
     private Label courseLabel;
     @FXML
     private Button deleteButton;
+    @FXML
+    private Button modifyButton;
+    @FXML
+    private Button rateButton;
 
     // Reference to the main application.
     private MainApp mainApp;
@@ -35,60 +39,36 @@ public class StudentController {
     private int index;
 
     /**
-     * The constructor, called before the initialize method.
-     */
-    public StudentController() {
-    }
-
-    /**
      * Initializes the controller class, is called after the fxml file has been loaded.
      */
     @FXML
     private void initialize() {
-        deleteButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.initOwner(mainApp.getPrimaryStage());
-                alert.setTitle("Conferma eliminazione");
-                alert.setHeaderText("Siete sicuri di voler eliminare l'alunno?");
-                alert.setContentText("Il procedimento non è reversibile.");
-                alert.showAndWait().ifPresent(response -> {
-                    if (response == ButtonType.OK)
-                        deleteStudent();
-                    // else do nothing
-                });
-            }
+        // Setting the behaviour of the delete button
+        deleteButton.setOnAction(event -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("Conferma eliminazione");
+            alert.setHeaderText("Siete sicuri di voler eliminare l'alunno?");
+            alert.setContentText("Il procedimento non è reversibile.");
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK)
+                    deleteStudent();
+                // else do nothing
+            });
         });
+        // Setting the behaviour of the modify button
+        modifyButton.setOnAction(event -> {modifyStudent();});
+        // Setting the behaviour of the rate button
+        rateButton.setOnAction(event -> {});
     }
 
     /**
-     * Is called by the main application to give a reference back to itself.
+     * Is called by the main application to give a reference back to itself and initialize some attributes.
      */
     public void setMainApp(MainApp mApp, int id) {
         mainApp = mApp;
         index = id;
-        //Add some foo evals to the list
-        ObservableList<LocalDate> foo = FXCollections.observableArrayList();
-        foo.add(LocalDate.MIN);
-        foo.add(LocalDate.now());
-        foo.add(LocalDate.MAX);
-        foo.add(LocalDate.MIN);
-        foo.add(LocalDate.now());
-        foo.add(LocalDate.MAX);
-        foo.add(LocalDate.MIN);
-        foo.add(LocalDate.now());
-        foo.add(LocalDate.MAX);
-        foo.add(LocalDate.MIN);
-        foo.add(LocalDate.now());
-        foo.add(LocalDate.MAX);
-        foo.add(LocalDate.MIN);
-        foo.add(LocalDate.now());
-        foo.add(LocalDate.MAX);
-        foo.add(LocalDate.MIN);
-        foo.add(LocalDate.now());
-        foo.add(LocalDate.MAX);
-        evalDateList.setItems(foo);
+        // Initialize the student attributes
         ObservableList<Student> studentData = mApp.getStudentData();
         Student student = studentData.get(index);
         firstNameLabel.setText(student.getFirstName());
@@ -98,10 +78,17 @@ public class StudentController {
     }
 
     /**
-     * Delete the current student indexed by local index variable
+     * Deletes the current student indexed by local index variable
      */
     private void deleteStudent() {
         mainApp.removeStudent(index);
         mainApp.showStudentListLayout();
+    }
+
+    /**
+     * Opens the add student layout to modify the current student
+     */
+    private void modifyStudent() {
+        mainApp.modifyStudent(index);
     }
 }

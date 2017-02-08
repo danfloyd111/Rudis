@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import model.Rating;
 import model.Student;
 
 import java.io.IOException;
@@ -22,12 +23,14 @@ public class MainApp extends Application {
     private BorderPane rootLayout;
 
     private ObservableList<Student> studentData;
+    private ObservableList<Rating> ratingData;
 
     /**
-     * Default constructor, for now is only for debug purpose.
+     * Default constructor.
      */
     public MainApp() {
         studentData = FXCollections.observableArrayList();
+        ratingData = FXCollections.observableArrayList();
         studentData.add(new Student("John", "Doe", "Classe A", LocalDate.now()));
         studentData.add(new Student("Jane", "Doe", "Classe B", LocalDate.now()));
     }
@@ -142,6 +145,31 @@ public class MainApp extends Application {
     }
 
     /**
+     * Show the modifying form
+     */
+    public void showModifyStudentLayout(Student oldStudent) {
+        try {
+            // Load the layout
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("../view/ModifyStudentLayout.fxml"));
+            AnchorPane modifyStudentLayout = (AnchorPane) loader.load();
+            // Set this view into the center of the root layout
+            rootLayout.setCenter(modifyStudentLayout);
+            // Give the controller access to the main app
+            ModifyStudentController controller = loader.getController();
+            controller.setMainApp(this);
+            controller.setFirstName(oldStudent.getFirstName());
+            controller.setLastName(oldStudent.getLastName());
+            controller.setCourse(oldStudent.getCourse());
+            controller.setBirthday(oldStudent.getBirthday());
+            controller.setOldStudent(oldStudent);
+        } catch (IOException e) {
+            System.out.println("Error in the showModifyStudentLayout !");
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Returns the main stage
      * @return
      */
@@ -154,6 +182,12 @@ public class MainApp extends Application {
     public ObservableList<Student> getStudentData() { return studentData; } // this is not so SAFE! Return a copy!!!
 
     /**
+     * Returns the data as an observable list of ratings.
+     * @return
+     */
+    public ObservableList<Rating> getRatingData() { return ratingData; } // this is not so SAFE! Return a copy!!!
+
+    /**
      * Add a student to the observable list of students.
      * @param student
      */
@@ -164,6 +198,15 @@ public class MainApp extends Application {
      * @param index
      */
     public void removeStudent(int index) { studentData.remove(index); }
+
+    /**
+     * Modifies a student.
+     * @param index
+     */
+    public void modifyStudent(int index) {
+        Student old = studentData.get(index);
+        showModifyStudentLayout(old);
+    }
 
 }
 

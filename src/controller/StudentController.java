@@ -59,7 +59,7 @@ public class StudentController {
         // Setting the behaviour of the modify button
         modifyButton.setOnAction(event -> {modifyStudent();});
         // Setting the behaviour of the rate button
-        rateButton.setOnAction(event -> {});
+        rateButton.setOnAction(event -> {rateStudent();});
     }
 
     /**
@@ -78,7 +78,7 @@ public class StudentController {
     }
 
     /**
-     * Deletes the current student indexed by local index variable
+     * Tells the main application to delete the current student indexed by local index variable
      */
     private void deleteStudent() {
         mainApp.removeStudent(index);
@@ -86,9 +86,14 @@ public class StudentController {
     }
 
     /**
-     * Opens the add student layout to modify the current student
+     * Tells the main application to open the ModifyStudentLayout
      */
     private void modifyStudent() {
         mainApp.modifyStudent(index);
     }
+
+    /**
+     * Tells the main application to open the RateStudentLayout
+     */
+    private void rateStudent() { mainApp.rateStudent(index); }
 }

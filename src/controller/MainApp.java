@@ -1,6 +1,9 @@
-package controller; /**
+package controller;
+
+/**
  * Created by dan on 03/02/17.
  * @author Daniele Paolini
+ * Main application.
  */
 
 import javafx.application.Application;
@@ -145,7 +148,8 @@ public class MainApp extends Application {
     }
 
     /**
-     * Show the modifying form
+     * Shows the modifying form.
+     * @param oldStudent
      */
     public void showModifyStudentLayout(Student oldStudent) {
         try {
@@ -162,12 +166,39 @@ public class MainApp extends Application {
             controller.setLastName(oldStudent.getLastName());
             controller.setCourse(oldStudent.getCourse());
             controller.setBirthday(oldStudent.getBirthday());
-            controller.setOldStudent(oldStudent);
+            controller.setOldStudent(oldStudent); // Refactor this you don't need to pass the student if you set the other attributes
         } catch (IOException e) {
             System.out.println("Error in the showModifyStudentLayout !");
             e.printStackTrace();
         }
     }
+
+    /**
+     * Shows the rating form.
+     * @param current
+     */
+    public void showRateStudentLayout(Student current) {
+        try {
+            // Load the layout
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("../view/RateStudentLayout.fxml"));
+            AnchorPane rateStudentLayout = (AnchorPane) loader.load();
+            // Set this view into the center of the root layout
+            rootLayout.setCenter(rateStudentLayout);
+            // Give the controller access to the main app
+            RateStudentController controller = loader.getController();
+            controller.setMainApp(this);
+            controller.setCurrentStudent(current); // Refactor this you don't need to pass the student if you set the other attributes
+            controller.setFirstName(current.getFirstName());
+            controller.setLastName(current.getLastName());
+            controller.setBirthday(current.getBirthday());
+            controller.setCourse(current.getCourse());
+        } catch (IOException e) {
+            System.out.println("Error in the showRateStudentLayout !");
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * Returns the main stage
@@ -206,6 +237,15 @@ public class MainApp extends Application {
     public void modifyStudent(int index) {
         Student old = studentData.get(index);
         showModifyStudentLayout(old);
+    }
+
+    /**
+     * Rates a student.
+     * @param index
+     */
+    public void rateStudent(int index) {
+        Student current = studentData.get(index);
+        showRateStudentLayout(current);
     }
 
 }

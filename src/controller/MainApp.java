@@ -16,6 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Rating;
 import model.Student;
+import model.Valuation;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -26,14 +27,14 @@ public class MainApp extends Application {
     private BorderPane rootLayout;
 
     private ObservableList<Student> studentData;
-    private ObservableList<Rating> ratingData;
+    private ObservableList<Valuation> valutationData;
 
     /**
      * Default constructor.
      */
     public MainApp() {
         studentData = FXCollections.observableArrayList();
-        ratingData = FXCollections.observableArrayList();
+        valutationData = FXCollections.observableArrayList();
         studentData.add(new Student("John", "Doe", "Classe A", LocalDate.now()));
         studentData.add(new Student("Jane", "Doe", "Classe B", LocalDate.now()));
     }
@@ -216,7 +217,7 @@ public class MainApp extends Application {
      * Returns the data as an observable list of ratings.
      * @return
      */
-    public ObservableList<Rating> getRatingData() { return ratingData; } // this is not so SAFE! Return a copy!!!
+    public ObservableList<Valuation> getValutationData() { return valutationData; } // this is not so SAFE! Return a copy!!!
 
     /**
      * Add a student to the observable list of students.
@@ -246,6 +247,18 @@ public class MainApp extends Application {
     public void rateStudent(int index) {
         Student current = studentData.get(index);
         showRateStudentLayout(current);
+    }
+
+    /**
+     * Stores the valutation in the db and refresh the valutation list of the student.
+     * @param valutation
+     */
+    public void storeValutation(Valuation valutation) {
+        valutationData.add(valutation);
+    }
+
+    public void storeRatings(ObservableList<Rating> ratings) {
+        // for now do nothing but you have to store them into the DB
     }
 
 }

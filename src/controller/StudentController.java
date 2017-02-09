@@ -1,14 +1,10 @@
 package controller;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Student;
-
-import java.time.LocalDate;
+import model.Valuation;
 
 /**
  * Created by dan on 03/02/17.
@@ -16,7 +12,7 @@ import java.time.LocalDate;
 public class StudentController {
 
     @FXML
-    private ListView<LocalDate> evalDateList;
+    private ListView<Valuation> valutationList;
     @FXML
     private Label firstNameLabel;
     @FXML
@@ -60,6 +56,8 @@ public class StudentController {
         modifyButton.setOnAction(event -> {modifyStudent();});
         // Setting the behaviour of the rate button
         rateButton.setOnAction(event -> {rateStudent();});
+
+        // NON PUOI FARE RIFERIMENTO ALLA MAIN APP QUI DENTRO PERCHE' ANCORA NON E' STATA REFERENZIATA
     }
 
     /**
@@ -69,12 +67,15 @@ public class StudentController {
         mainApp = mApp;
         index = id;
         // Initialize the student attributes
-        ObservableList<Student> studentData = mApp.getStudentData();
+        ObservableList<Student> studentData = mApp.getStudentData(); // questo per fare una bella cosa dovrebbe essere la main app ad iniettarlo
         Student student = studentData.get(index);
         firstNameLabel.setText(student.getFirstName());
         lastNameLabel.setText(student.getLastName());
         birthdayLabel.setText("Nato il ".concat(student.getBirthday().toString()));
         courseLabel.setText(student.getCourse());
+
+        valutationList.setItems(mainApp.getValutationData()); // questo per fare una bella cosa dovrebbe essere la main app ad iniettarlo
+
     }
 
     /**

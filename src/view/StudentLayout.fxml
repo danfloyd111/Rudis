@@ -55,7 +55,7 @@
                   <Font size="30.0" />
                </font>
             </Label>
-            <ListView fx:id="evalDateList" prefHeight="200.0" prefWidth="200.0" />
+            <ListView fx:id="valutationList" prefHeight="200.0" prefWidth="200.0" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                <children>
                   <Button fx:id="rateButton" mnemonicParsing="false" text="Aggiungi valutazione" />

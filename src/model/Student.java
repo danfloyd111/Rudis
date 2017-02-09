@@ -20,6 +20,7 @@ public class Student {
     private final StringProperty lastName;
     private final StringProperty course;
     private final ObjectProperty<LocalDate> birthday;
+    private String id;
 
     /**
      * Default constructor.
@@ -41,6 +42,17 @@ public class Student {
         birthday = new SimpleObjectProperty<LocalDate>(bday);
     }
 
+    /**
+     * Id getter.
+     * @return
+     */
+    public String getId() { return id; }
+
+    /**
+     * Id setter.
+     * @param id
+     */
+    public void setId(String id) { this.id = id; }
     /**
      * First name getter.
      * @return

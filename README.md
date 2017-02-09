@@ -10,7 +10,7 @@ This is a first demo application for the project of Competence Monitoring
 
 ### How do I get set up? ###
 
-* TODO: set up infoi
+* TODO: set up info
 * TODO: configuration
 * Dependencies: SQLight, JRE and the Java FX libraries.
 * TODO: Database configuration

@@ -12,7 +12,7 @@ import model.Valuation;
 public class StudentController {
 
     @FXML
-    private ListView<Valuation> valutationList;
+    private ListView<Valuation> valuationList;
     @FXML
     private Label firstNameLabel;
     @FXML
@@ -31,8 +31,8 @@ public class StudentController {
     // Reference to the main application.
     private MainApp mainApp;
 
-    // Reference to the current student as index of a list
-    private int index;
+    // Reference to the current student
+    private String studentId;
 
     /**
      * Initializes the controller class, is called after the fxml file has been loaded.
@@ -47,42 +47,53 @@ public class StudentController {
             alert.setHeaderText("Siete sicuri di voler eliminare l'alunno?");
             alert.setContentText("Il procedimento non è reversibile.");
             alert.showAndWait().ifPresent(response -> {
-                if (response == ButtonType.OK)
+                if (response == ButtonType.OK) {
                     deleteStudent();
+                    mainApp.deleteValutations(studentId);
+                }
                 // else do nothing
             });
         });
+
         // Setting the behaviour of the modify button
         modifyButton.setOnAction(event -> {modifyStudent();});
+
         // Setting the behaviour of the rate button
         rateButton.setOnAction(event -> {rateStudent();});
+
+        // Setting the behaviour of double click on the list
+        valuationList.setOnMouseClicked(event -> {
+            if(event.getClickCount() == 2 && !valuationList.getItems().isEmpty()){
+                String id = valuationList.getSelectionModel().getSelectedItem().getValuationId();
+                mainApp.showValuationLayout(id);
+            }
+        });
 
         // NON PUOI FARE RIFERIMENTO ALLA MAIN APP QUI DENTRO PERCHE' ANCORA NON E' STATA REFERENZIATA
     }
 
     /**
      * Is called by the main application to give a reference back to itself and initialize some attributes.
+     * @param mApp
+     * @param id
      */
-    public void setMainApp(MainApp mApp, int id) {
+    public void setMainApp(MainApp mApp, String id) {
         mainApp = mApp;
-        index = id;
+        studentId = id;
         // Initialize the student attributes
-        ObservableList<Student> studentData = mApp.getStudentData(); // questo per fare una bella cosa dovrebbe essere la main app ad iniettarlo
-        Student student = studentData.get(index);
-        firstNameLabel.setText(student.getFirstName());
-        lastNameLabel.setText(student.getLastName());
-        birthdayLabel.setText("Nato il ".concat(student.getBirthday().toString()));
-        courseLabel.setText(student.getCourse());
-
-        valutationList.setItems(mainApp.getValutationData()); // questo per fare una bella cosa dovrebbe essere la main app ad iniettarlo
-
+        ObservableList<Student> studentData = mApp.getStudentData().filtered(student -> student.getId().equals(studentId)); // questo per fare una bella cosa dovrebbe essere la main app ad iniettarlo
+        Student student = studentData.get(0); // questo per fare una bella cosa dovrebbe essere la main app ad iniettarlo
+        firstNameLabel.setText(student.getFirstName()); // questo per fare una bella cosa dovrebbe essere la main app ad iniettarlo
+        lastNameLabel.setText(student.getLastName()); // questo per fare una bella cosa dovrebbe essere la main app ad iniettarlo
+        birthdayLabel.setText("Nato il ".concat(student.getBirthday().toString())); // questo per fare una bella cosa dovrebbe essere la main app ad iniettarlo
+        courseLabel.setText(student.getCourse()); // questo per fare una bella cosa dovrebbe essere la main app ad iniettarlo
     }
 
     /**
      * Tells the main application to delete the current student indexed by local index variable
      */
     private void deleteStudent() {
-        mainApp.removeStudent(index);
+        mainApp.removeStudent(studentId);
         mainApp.showStudentListLayout();
     }
 
@@ -90,11 +101,17 @@ public class StudentController {
      * Tells the main application to open the ModifyStudentLayout
      */
     private void modifyStudent() {
-        mainApp.modifyStudent(index);
+        mainApp.modifyStudent(studentId);
     }
 
     /**
      * Tells the main application to open the RateStudentLayout
      */
-    private void rateStudent() { mainApp.rateStudent(index); }
+    private void rateStudent() { mainApp.rateStudent(studentId); }
+
+    /**
+     * Sets the valutation list with proper data.
+     * @param vlist
+     */
+    public void setValutationData(ObservableList<Valuation> vlist) { valuationList.setItems(vlist); }
 }

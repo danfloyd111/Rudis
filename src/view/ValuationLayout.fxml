@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ValuationController">
+    <children>
+        <VBox alignment="CENTER" layoutX="159.0" layoutY="42.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label text="Rubrica di Osservazione">
+                    <font>
+                        <Font size="30.0" />
+                    </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+                </Label>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
+                    <children>
+                        <Label fx:id="firstName" text="Nome">
+                            <font>
+                                <Font size="25.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="lastName" layoutX="276.0" layoutY="43.0" text="Cognome">
+                            <font>
+                                <Font size="25.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="birthday" layoutX="290.0" layoutY="43.0" text="nato il xx/yy/zzzz">
+                            <font>
+                                <Font size="25.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="course" layoutX="302.0" layoutY="43.0" text="classe X">
+                            <font>
+                                <Font size="25.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
+                    <children>
+                        <Label fx:id="valuationId" text="Codice 123456789">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="valuationDate" layoutX="226.0" layoutY="46.0" text="Data Valutazione xx/yy/zzzz">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+                <TableView fx:id="ratingsTable" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                        <TableColumn fx:id="competenceColumn" prefWidth="75.0" text="Competenza" />
+                        <TableColumn fx:id="ratingsColumn" prefWidth="75.0" text="Livello" />
+                    </columns>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                    </columnResizePolicy>
+                </TableView>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
+                    <children>
+                        <Button fx:id="backButton" mnemonicParsing="false" text="Indietro" />
+                        <Button fx:id="exportButton" layoutX="280.0" layoutY="28.0" mnemonicParsing="false" text="Esporta" />
+                        <Button fx:id="modifyButton" layoutX="323.0" layoutY="28.0" mnemonicParsing="false" text="Modifica" />
+                        <Button fx:id="deleteButton" layoutX="189.0" layoutY="28.0" mnemonicParsing="false" text="Elimina" />
+                    </children>
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+                </HBox>
+            </children>
+            <opaqueInsets>
+                <Insets bottom="20.0" top="20.0" />
+            </opaqueInsets>
+        </VBox>
+    </children>
+</AnchorPane>

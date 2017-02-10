@@ -15,7 +15,12 @@
                     </font>
                 </Label>
                 <Label layoutX="264.0" layoutY="200.0" prefHeight="32.0" prefWidth="73.0" text="Versione 0.1" />
-                <Label layoutX="86.0" layoutY="313.0" text="Piattaforma sperimentale per l'osservazione delle competenze degli alunni&#10;Scuola dell'Infanzia, Primaria e Secondaria di 1° Grado" textAlignment="CENTER" />
+                <Label layoutX="86.0" layoutY="313.0" text="Piattaforma sperimentale per l'osservazione delle competenze degli alunni,&#10;ideato per le Scuola dell'Infanzia, Primarie e Secondarie di 1° Grado&#10;Scegliete &quot;Aiuto&quot; -&gt; &quot;Guida&quot; per leggere le istruzioni," textAlignment="CENTER" />
+            <Label text="Buon lavoro!">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
             </children>
         </VBox>
     </children>

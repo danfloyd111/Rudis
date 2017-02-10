@@ -10,6 +10,8 @@ import model.Student;
 import model.Valuation;
 
 import java.time.LocalDate;
+import java.util.Random;
+import java.util.function.Predicate;
 
 /**
  * Created by dan on 09/02/17.
@@ -69,7 +71,7 @@ public class RateStudentController {
         // initialization that occurs immediately after the constructor ends. So the attributes must be setted from the Main
         // application by calling the apposite methods.
         cancelButton.setOnAction(event -> {
-            mainApp.showStudentLayout(mainApp.getStudentData().indexOf(currentStudent));
+            mainApp.showStudentLayout(currentStudent.getId());
         });
 
         // RATING TABLE TEST
@@ -89,20 +91,41 @@ public class RateStudentController {
         });
 
         rateButton.setOnAction(event -> {
-            if(ratingDate.getValue() != null) {
-                ObservableList<Rating> ratings = ratingsTable.getItems();
+            ObservableList<Rating> ratings = ratingsTable.getItems();
+            // This predicate will check the data
+            Predicate<Rating> pred = rate -> !rate.getRate().equals("A") && !rate.getRate().equals("B")
+                    && !rate.getRate().equals("C") && !rate.getRate().equals("D");
+            // Alert setting
+            Alert.AlertType atype = Alert.AlertType.INFORMATION;
+            String atitle = "Successo";
+            String aheader = "Operazione completata";
+            String acontent = "La valutazione è stata correttamente inserita nel database";
+            boolean go = true;
+            if(ratingDate.getValue() != null && ratings.filtered(pred).isEmpty()) {
                 // valutation ID needs to be the same in the next statements
-                Valuation valutation = new Valuation(currentStudent.getId(), "valutation ID", ratingDate.getValue());
-                ratings.forEach(rate -> rate.setValutationID("valutation ID"));
-
+                String id = generateValuationId();
+                Valuation valutation = new Valuation(currentStudent.getId(), id, ratingDate.getValue());
+                ratings.forEach(rate -> rate.setValutationID(id));
                 // Now call a method in the main app that stores the valutation and refresh the valutation list of the student
                 mainApp.storeValutation(valutation);
                 mainApp.storeRatings(ratings);
-                // CHECK valutation data and alert ok if all gone fine
-                mainApp.showStudentLayout(mainApp.getStudentData().indexOf(currentStudent)); // we need to change this reference and search by student ID
             } else {
-                // alert date cannot be null
+                atype = Alert.AlertType.ERROR;
+                atitle = "Errore";
+                aheader = "Uno o più campi sono vuoti o contengono errori";
+                acontent = "Assicurarsi che le valutazioni siano indicate unicamente con un\n" +
+                        "solo carattere maiuscolo (es:\"A\") e di aver inserito la data.\n" +
+                        "Si consiglia di consultare la guida.";
+                go = false;
             }
+            Alert alert = new Alert(atype);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle(atitle);
+            alert.setHeaderText(aheader);
+            alert.setContentText(acontent);
+            alert.showAndWait();
+            if(go)
+                mainApp.showStudentLayout(currentStudent.getId());
         });
     }
 
@@ -141,4 +164,14 @@ public class RateStudentController {
      * @return
      */
     public LocalDate getRatingDate() { return ratingDate.getValue(); }
+
+    /**
+     * Generate a random string.
+     * @return
+     */
+    private String generateValuationId() {
+        Random generator = new Random();
+        int rand = generator.nextInt();
+        return firstName.getText().concat(lastName.getText()) + rand;
+    }
 }

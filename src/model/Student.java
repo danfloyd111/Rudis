@@ -20,12 +20,12 @@ public class Student {
     private final StringProperty lastName;
     private final StringProperty course;
     private final ObjectProperty<LocalDate> birthday;
-    private String id;
+    private final String id;
 
     /**
      * Default constructor.
      */
-    public Student () { this(null, null, null, null); }
+    public Student () { this(null, null, null, null, null); }
 
     /**
      * Constructor with some initial data.
@@ -35,11 +35,12 @@ public class Student {
      * @param crs
      * @param bday
      */
-    public Student(String fName, String lName, String crs, LocalDate bday) {
+    public Student(String fName, String lName, String crs, LocalDate bday, String id) {
         firstName = new SimpleStringProperty(fName);
         lastName = new SimpleStringProperty(lName);
         course = new SimpleStringProperty(crs);
         birthday = new SimpleObjectProperty<LocalDate>(bday);
+        this.id = id;
     }
 
     /**
@@ -48,11 +49,6 @@ public class Student {
      */
     public String getId() { return id; }
 
-    /**
-     * Id setter.
-     * @param id
-     */
-    public void setId(String id) { this.id = id; }
     /**
      * First name getter.
      * @return
@@ -124,4 +120,13 @@ public class Student {
      * @return
      */
     public StringProperty courseProperty() { return course; }
+
+    /**
+     * Print the student informations well formatted.
+     * @return
+     */
+    @Override
+    public String toString() {
+        return lastName.get().concat(" ").concat(firstName.get()).concat(", frequentante la ").concat(course.get());
+    }
 }

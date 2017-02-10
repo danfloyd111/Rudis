@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import model.Student;
 
 import java.time.LocalDate;
+import java.util.Random;
 
 /**
  * Created by dan on 06/02/17.
@@ -58,7 +59,7 @@ public class AddStudentController {
             boolean go = false;
             LocalDate bday = birthday.getValue();
             if (fName!=null && lName!=null && bday!=null && crs!=null && bday.isBefore(LocalDate.now())) {
-                Student student = new Student(fName, lName, crs, bday);
+                Student student = new Student(fName, lName, crs, bday, generateStudentId());
                 mainApp.addStudent(student);
                 aType = Alert.AlertType.INFORMATION;
                 aTitle = "Successo";
@@ -82,5 +83,15 @@ public class AddStudentController {
         });
         // Setting the handler for the cancel button
         cancelButton.setOnAction(event -> {mainApp.showHomeLayout();});
+    }
+
+    /**
+     * Generates a random string.
+     * @return
+     */
+    private String generateStudentId() {
+        Random generator = new Random();
+        int rand = generator.nextInt();
+        return firstName.getText() + lastName.getText() + rand;
     }
 }

@@ -9,7 +9,6 @@ package controller;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -108,7 +107,7 @@ public class MainApp extends Application {
             rootLayout.setCenter(studentLayout);
             //Give the controller access to the main app
             StudentController controller = loader.getController();
-            controller.setValutationData(valuationData.filtered(v -> v.getStudentId().equals(studentId)));
+            controller.setValuationData(valuationData.filtered(v -> v.getStudentId().equals(studentId)));
             controller.setMainApp(this, studentId);
         } catch (IOException e) {
             System.out.println("Error in the showStudentLayout !");
@@ -309,21 +308,29 @@ public class MainApp extends Application {
     public void storeRatings(ObservableList<Rating> ratings) { ratingData.addAll(ratings); }
 
     /**
-     * Deletes an evaluation from the db and all the ratings related to it.
+     * Deletes a single evaluation and all the ratings related to it
+     * @param valuationId
+     */
+    public void deleteValuation(String valuationId) {
+        ratingData.removeAll(ratingData.filtered( rate -> rate.getValutationID().equals(valuationId)));
+        valuationData.removeAll(valuationData.filtered((val -> val.getValuationId().equals(valuationId))));
+        // Remember to delete all these things from the db also
+    }
+
+    /**
+     * Deletes all evaluations related with the student and deletes all the ratings related to it.
      * @param studentId
      */
     public void deleteValutations(String studentId) {
         // Ok, this try-catch is ugly and bad managed but it can be useful to break the exception chain in case of bug.
         try {
-            FilteredList<Valuation> deadValuations = valuationData.filtered(v -> v.getStudentId().equals(studentId));
-            List<String> valuationIds = new ArrayList<String>();
-            valuationData.forEach(v -> valuationIds.add(v.getValuationId()));
+            List<String> valuationIds = new ArrayList<>();
+            valuationData.forEach(v -> {
+                if(v.getStudentId().equals(studentId))
+                    valuationIds.add(v.getValuationId());
+            });
             // Removing all the ratings connected with the valuations
-            valuationIds.forEach(valId -> ratingData.removeAll(ratingData.filtered((rate -> rate.getValutationID().equals(valId)))));
-            // Removing all the valuations linked to the student
-            valuationData.removeAll(deadValuations);
-
-            // Remeber to delete all the things from the DB ALSO!!!
+            valuationIds.forEach(valId -> deleteValuation(valId));
         } catch (NullPointerException e) {
             System.err.println("Null pointer exception into deleteValuations! Something is gone really wrong!");
             e.printStackTrace();

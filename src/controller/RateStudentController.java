@@ -172,6 +172,6 @@ public class RateStudentController {
     private String generateValuationId() {
         Random generator = new Random();
         int rand = generator.nextInt();
-        return firstName.getText().concat(lastName.getText()) + rand;
+        return firstName.getText() + lastName.getText() + rand;
     }
 }

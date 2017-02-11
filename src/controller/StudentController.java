@@ -47,10 +47,8 @@ public class StudentController {
             alert.setHeaderText("Siete sicuri di voler eliminare l'alunno?");
             alert.setContentText("Il procedimento non è reversibile.");
             alert.showAndWait().ifPresent(response -> {
-                if (response == ButtonType.OK) {
+                if (response == ButtonType.OK)
                     deleteStudent();
-                    mainApp.deleteValutations(studentId);
-                }
                 // else do nothing
             });
         });
@@ -64,8 +62,11 @@ public class StudentController {
         // Setting the behaviour of double click on the list
         valuationList.setOnMouseClicked(event -> {
             if(event.getClickCount() == 2 && !valuationList.getItems().isEmpty()){
-                String id = valuationList.getSelectionModel().getSelectedItem().getValuationId();
-                mainApp.showValuationLayout(id);
+                Valuation valuation = valuationList.getSelectionModel().getSelectedItem();
+                if(valuation!=null){
+                    String id = valuation.getValuationId();
+                    mainApp.showValuationLayout(id);
+                }
             }
         });
 
@@ -94,6 +95,7 @@ public class StudentController {
      */
     private void deleteStudent() {
         mainApp.removeStudent(studentId);
+        mainApp.deleteValutations(studentId);
         mainApp.showStudentListLayout();
     }
 
@@ -113,5 +115,5 @@ public class StudentController {
      * Sets the valutation list with proper data.
      * @param vlist
      */
-    public void setValutationData(ObservableList<Valuation> vlist) { valuationList.setItems(vlist); }
+    public void setValuationData(ObservableList<Valuation> vlist) { valuationList.setItems(vlist); }
 }

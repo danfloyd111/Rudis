@@ -20,8 +20,11 @@ public class StudentListController {
     private void initialize() {
         studentList.setOnMouseClicked(event -> {
             if (event.getClickCount()==2 && !studentList.getItems().isEmpty()) {
-                String id = studentList.getSelectionModel().getSelectedItem().getId();
-                mainApp.showStudentLayout(id);
+                Student student = studentList.getSelectionModel().getSelectedItem();
+                if(student!=null) {
+                    String id = student.getId();
+                    mainApp.showStudentLayout(id);
+                }
             }
         });
     }

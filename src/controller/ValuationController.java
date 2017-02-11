@@ -2,10 +2,7 @@ package controller;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import model.Rating;
 import model.Valuation;
 
@@ -68,6 +65,19 @@ public class ValuationController {
         ratingsColumn.setCellValueFactory(cellValue -> cellValue.getValue().rateProperty());
         // Setting the behaviour of the back button
         backButton.setOnAction(event -> { mainApp.showStudentLayout(currentValuation.getStudentId()); });
+        // Setting the behaviour of the delete button
+        deleteButton.setOnAction(event -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("Conferma eliminazione");
+            alert.setHeaderText("Siete sicuri di voler eliminare la valutazione?");
+            alert.setContentText("Il procedimento non è reversibile.");
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK)
+                    deleteValuation();
+                // else do nothing
+            });
+        });
     }
 
     // I don't think we need the getters at all.
@@ -125,5 +135,15 @@ public class ValuationController {
      * @return
      */
     public Valuation getCurrentValuation() { return currentValuation; }
+
+    /**
+     * Tells the main app to delete this valuation from the list and the db.
+     */
+    private void deleteValuation() {
+        // We need to save the id before the deletion to prevent a null pointer exception
+        String studentId = currentValuation.getStudentId();
+        mainApp.deleteValuation(currentValuation.getValuationId());
+        mainApp.showStudentLayout(studentId);
+    }
 
 }

@@ -63,9 +63,8 @@ public class ValuationController {
         // Setting the cell factory of the columns
         competenceColumn.setCellValueFactory(cellValue -> cellValue.getValue().competenceProperty());
         ratingsColumn.setCellValueFactory(cellValue -> cellValue.getValue().rateProperty());
-        // Setting the behaviour of the back button
+        // Setting the behaviour of the buttons
         backButton.setOnAction(event -> { mainApp.showStudentLayout(currentValuation.getStudentId()); });
-        // Setting the behaviour of the delete button
         deleteButton.setOnAction(event -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.initOwner(mainApp.getPrimaryStage());
@@ -78,6 +77,8 @@ public class ValuationController {
                 // else do nothing
             });
         });
+        modifyButton.setOnAction(event -> { mainApp.showModifyValuationLayout(currentValuation.getValuationId());});
+
     }
 
     // I don't think we need the getters at all.

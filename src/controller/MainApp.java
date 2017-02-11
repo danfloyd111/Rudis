@@ -208,7 +208,7 @@ public class MainApp extends Application {
     }
 
     /**
-     * Shows the valuation view.
+     * Shows the Valuation view.
      * @param valuationId
      */
     public void showValuationLayout(String valuationId) {
@@ -234,6 +234,26 @@ public class MainApp extends Application {
             controller.setCurrentValuation(valuation); // This is only thing you have to pass, check and refactor
         } catch (IOException e) {
             System.out.println("Error in the showValuationLayout !");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Shows the ModifyValuation view.
+     * @param valuationId
+     */
+    public void showModifyValuationLayout(String valuationId) {
+        try {
+            // TODO: keep the comments in only one of the show... methods
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("../view/ModifyValuationLayout.fxml"));
+            // TODO: refactor the next two lines in one
+            AnchorPane modifyValuationLayout = (AnchorPane) loader.load();
+            rootLayout.setCenter(modifyValuationLayout);
+            ModifyValuationController controller = loader.getController();
+            controller.setup(this, valuationData.filtered(v -> v.getValuationId().equals(valuationId)).get(0));
+        } catch (IOException e) {
+            System.out.println("Error in the showModifyValuation method !");
             e.printStackTrace();
         }
     }
@@ -339,4 +359,3 @@ public class MainApp extends Application {
     }
 
 }
-

@@ -84,7 +84,6 @@ public class RateStudentController {
         competenceColumn.setCellValueFactory(cellValue -> cellValue.getValue().competenceProperty());
         ratingsColumn.setCellValueFactory(cellValue -> cellValue.getValue().rateProperty());
         // This column needs to be editable
-        ratingsColumn.setCellValueFactory(cellValue -> cellValue.getValue().rateProperty());
         ratingsColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         ratingsColumn.setOnEditCommit(event -> {
             event.getTableView().getItems().get(event.getTablePosition().getRow()).setRate(event.getNewValue());
@@ -99,7 +98,7 @@ public class RateStudentController {
             Alert.AlertType atype = Alert.AlertType.INFORMATION;
             String atitle = "Successo";
             String aheader = "Operazione completata";
-            String acontent = "La valutazione è stata correttamente inserita nel database";
+            String acontent = "La valutazione è stata correttamente inserita\nnel database.";
             boolean go = true;
             if(ratingDate.getValue() != null && ratings.filtered(pred).isEmpty()) {
                 // valutation ID needs to be the same in the next statements

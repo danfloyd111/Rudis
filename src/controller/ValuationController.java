@@ -3,8 +3,11 @@ package controller;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
 import model.Rating;
 import model.Valuation;
+
+import java.io.File;
 
 /**
  * Created by dan on 10/02/17.
@@ -78,6 +81,16 @@ public class ValuationController {
             });
         });
         modifyButton.setOnAction(event -> { mainApp.showModifyValuationLayout(currentValuation.getValuationId());});
+        exportButton.setOnAction(event -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Salva con nome");
+            FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Pdf files (*.pdf","*.pdf");
+            File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
+            if(file!=null){
+                // Here we will do the real stuff
+                System.out.println(file.getAbsolutePath());
+            }
+        });
 
     }
 

@@ -9,7 +9,7 @@ import model.Rating;
 import model.Student;
 import model.Valuation;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.function.Predicate;
 
@@ -96,12 +96,19 @@ public class ModifyValuationController {
             if(ratingDate.getValue() != null && newRatings.filtered(pred).isEmpty()) {
                 currentValuation.setValuationDate(ratingDate.getValue());
                 // TODO: Before sorting you need to extract the data from currentRatings and newRatings and put into a modifiable list!!!
+                // TODO: Check this behaviour
                 // Sorting the ratings collections
+                ArrayList<Rating> crlist = new ArrayList<>();
+                ArrayList<Rating> nrlist = new ArrayList<>();
+                currentRatings.forEach(rate -> crlist.add(rate));
+                newRatings.forEach(rate -> nrlist.add(rate));
+                crlist.sort(Comparator.comparing(Rating::getCompetence));
+                nrlist.sort(Comparator.comparing(Rating::getCompetence));
                 //currentRatings.sort(Comparator.comparing(Rating::getCompetence));
                 //newRatings.sort(Comparator.comparing(Rating::getCompetence));
                 // Now we can refresh the data
-                for(int i = 0; i < currentRatings.size(); i++)
-                    currentRatings.get(i).setRate(newRatings.get(i).getRate());
+                for(int i = 0; i < crlist.size(); i++)
+                    crlist.get(i).setRate(nrlist.get(i).getRate());
                 // TODO: Here we have to refresh also the Database !!!
             } else {
                 atype = Alert.AlertType.ERROR;

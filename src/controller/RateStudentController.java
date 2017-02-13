@@ -1,5 +1,6 @@
 package controller;
 
+import com.sun.xml.internal.ws.api.ResourceLoader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,8 +10,11 @@ import model.Rating;
 import model.Student;
 import model.Valuation;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.function.Predicate;
 
 /**
@@ -73,11 +77,20 @@ public class RateStudentController {
         cancelButton.setOnAction(event -> {
             mainApp.showStudentLayout(currentStudent.getId());
         });
-
-        // RATING TABLE TEST
         ObservableList<Rating> testList = FXCollections.observableArrayList();
-        for(int i = 0; i < 10; i++)
-            testList.add(new Rating("valutationID","Sa fare la cacca", "A"));
+        // TODO: Make some tests with these settings (Reading these settings from a configuration file may be a nice solution)
+        // Loading the competences from the configuration file
+        File file = new File("resources/conf/competences.cf");
+        try {
+            Scanner scanner = new Scanner(file);
+            while(scanner.hasNextLine())
+                testList.add(new Rating("this id will be changed when rate button will be pressed", scanner.nextLine(), "A"));
+        } catch (FileNotFoundException e) {
+            System.err.println("Error during the init of RateStudentController !");
+            e.printStackTrace();
+        }
+        //for(int i = 0; i < 10; i++)
+        //    testList.add(new Rating("this id will be changed when rate button will be pressed", "Competenza " + (i+1), "A"));
 
         // Here you will have to set the right E
         ratingsTable.setItems(testList);

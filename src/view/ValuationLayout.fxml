@@ -31,7 +31,7 @@
                                 <Font size="25.0" />
                             </font>
                         </Label>
-                        <Label fx:id="birthday" layoutX="290.0" layoutY="43.0" text="nato il xx/yy/zzzz">
+                        <Label fx:id="birthday" layoutX="290.0" layoutY="43.0" text="nato/a il xx/yy/zzzz">
                             <font>
                                 <Font size="25.0" />
                             </font>

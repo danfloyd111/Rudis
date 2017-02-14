@@ -1,6 +1,5 @@
 package controller;
 
-import com.sun.xml.internal.ws.api.ResourceLoader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,6 +11,8 @@ import model.Valuation;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Random;
 import java.util.Scanner;
@@ -114,12 +115,16 @@ public class RateStudentController {
             String acontent = "La valutazione è stata correttamente inserita\nnel database.";
             boolean go = true;
             if(ratingDate.getValue() != null && ratings.filtered(pred).isEmpty()) {
-                // valutation ID needs to be the same in the next statements
+                // valuation ID needs to be the same in the next statements
                 String id = generateValuationId();
-                Valuation valutation = new Valuation(currentStudent.getId(), id, ratingDate.getValue());
-                ratings.forEach(rate -> rate.setValutationID(id));
-                // Now call a method in the main app that stores the valutation and refresh the valutation list of the student
-                mainApp.storeValutation(valutation);
+                Valuation valuation = new Valuation(currentStudent.getId(), id, ratingDate.getValue());
+                storeValuation(valuation);
+                ratings.forEach(rate -> {
+                    rate.setValuationID(id);
+                    storeRating(rate);
+                });
+                // Now call a method in the main app that stores the valuation and refresh the valuation list of the student
+                mainApp.storeValutation(valuation);
                 mainApp.storeRatings(ratings);
             } else {
                 atype = Alert.AlertType.ERROR;
@@ -163,7 +168,7 @@ public class RateStudentController {
      * Course getter.
      * @param crs
      */
-    public void setCourse(String crs) { course.setText(crs); }
+    public void setCourse(String crs) {course.setText("Classe " + crs); }
 
     /**
      * Birthday getter.
@@ -185,5 +190,43 @@ public class RateStudentController {
         Random generator = new Random();
         int rand = generator.nextInt();
         return firstName.getText() + lastName.getText() + rand;
+    }
+
+    /**
+     * Stores the valuation into the database.
+     * @param valuation
+     */
+    private void storeValuation(Valuation valuation) {
+        String insertQuery = "INSERT into valuations "
+                + "VALUES ('"+ valuation.getValuationId() + "', '"
+                + valuation.getStudentId() + "', '"
+                + valuation.getValuationDate().toString() + "');";
+        try {
+            Statement statement = mainApp.getDatabaseConnection().createStatement();
+            statement.execute(insertQuery);
+        } catch (SQLException e) {
+            System.err.println("Error in RateStudentController() - Cannot store valuation");
+            e.printStackTrace();
+            System.exit(-1);
+        }
+    }
+
+    /**
+     * Stores the valuation into the database.
+     * @param rating
+     */
+    private void storeRating(Rating rating) {
+        String insertQuery = "INSERT into ratings (valuationId, competence, rate)"
+                + "VALUES ('" + rating.getValuationID() + "', '"
+                + rating.getCompetence() + "', '"
+                + rating.getRate() + "');";
+        try {
+            Statement statement = mainApp.getDatabaseConnection().createStatement();
+            statement.execute(insertQuery);
+        } catch (SQLException e) {
+            System.err.println("Error in RateStudentController() - Cannot store rating");
+            e.printStackTrace();
+            System.exit(-1);
+        }
     }
 }

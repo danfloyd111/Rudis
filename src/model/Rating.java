@@ -14,7 +14,7 @@ public class Rating {
     // Attributes
     private StringProperty competence;
     private StringProperty rate;
-    private String valutationID;
+    private String valuationID;
 
     /**
      * Constructor
@@ -23,7 +23,7 @@ public class Rating {
      * @param rt
      */
     public Rating(String rid, String comp, String rt) {
-        valutationID = rid;
+        valuationID = rid;
         competence = new SimpleStringProperty(comp);
         rate = new SimpleStringProperty(rt);
     }
@@ -32,13 +32,13 @@ public class Rating {
      * Valuation ID getter.
      * @return
      */
-    public String getValutationID() { return valutationID; }
+    public String getValuationID() { return valuationID; }
 
     /**
      * Valuation ID setter.
      * @param vid
      */
-    public void setValutationID(String vid) { valutationID = vid; }
+    public void setValuationID(String vid) { valuationID = vid; }
 
     /**
      * Competence getter.

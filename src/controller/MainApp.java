@@ -20,6 +20,7 @@ import model.Student;
 import model.Valuation;
 
 import java.io.IOException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,8 @@ public class MainApp extends Application {
     private ObservableList<Valuation> valuationData;
     private ObservableList<Rating> ratingData;
 
+    private Connection databaseConnection;
+
     /**
      * Default constructor.
      */
@@ -40,8 +43,6 @@ public class MainApp extends Application {
         studentData = FXCollections.observableArrayList();
         valuationData = FXCollections.observableArrayList();
         ratingData = FXCollections.observableArrayList();
-        studentData.add(new Student("John", "Doe", "Classe A", LocalDate.now(), "JohnDoe"));
-        studentData.add(new Student("Jane", "Doe", "Classe B", LocalDate.now(), "JaneDoe"));
     }
 
     public static void main(String[] args) { launch(args); }
@@ -55,6 +56,41 @@ public class MainApp extends Application {
         primaryStage.setMinWidth(850);
         initRootLayout();
         showHomeLayout();
+        // Database initialization
+        databaseConnection = null;
+        try {
+            databaseConnection = DriverManager.getConnection("jdbc:sqlite:resources/db/rudis.db");
+            String studentCreationQuery = "CREATE TABLE IF NOT EXISTS students(\n"
+                    + "id TEXT PRIMARY KEY NOT NULL,\n"
+                    + "firstName TEXT NOT NULL,\n"
+                    + "lastName TEXT NOT NULL,\n"
+                    + "course TEXT NOT NULL,\n"
+                    + "birthday  TEXT NOT NULL\n"
+                    + ");";
+            String valuationsCreationQuery = "CREATE TABLE IF NOT EXISTS valuations(\n"
+                    + "id TEXT PRIMARY KEY NOT NULL,\n"
+                    + "studentId TEXT REFERENCES students ON UPDATE CASCADE ON DELETE CASCADE,\n"
+                    + "date TEXT NOT NULL\n"
+                    + ");";
+            String ratingsCreationQuery = "CREATE TABLE IF NOT EXISTS ratings(\n"
+                    + "id INTEGER PRIMARY KEY NOT NULL,\n"
+                    + "valuationId TEXT REFERENCES valuations ON UPDATE CASCADE ON DELETE CASCADE,\n"
+                    + "competence TEXT NOT NULL,\n"
+                    + "rate TEXT NOT NULL\n"
+                    + ");";
+            Statement statement = databaseConnection.createStatement();
+            statement.execute(studentCreationQuery);
+            statement.execute(valuationsCreationQuery);
+            statement.execute(ratingsCreationQuery);
+            // Loading data stored into the db
+            loadStudents();
+            loadValuations();
+            loadRatings();
+        } catch (SQLException e) {
+            System.err.println("Error in start() - MainApp. Couldn't get a connection with the db.");
+            e.printStackTrace();
+            System.exit(-1);
+        }
     }
 
     /**
@@ -230,9 +266,9 @@ public class MainApp extends Application {
             controller.setLastName(student.getLastName()); // REFACTOR
             controller.setBirthday(student.getBirthday().toString()); // REFACTOR
             controller.setCourse(student.getCourse()); // REFACTOR
-            controller.setValuationDate(valuationId); // REFACTOR
+            controller.setValuationId(valuationId); // REFACTOR
             controller.setValuationDate(valuation.getValuationDate().toString()); // REFACTOR
-            controller.setRatings(ratingData.filtered(rate -> rate.getValutationID().equals(valuationId))); // REFACTOR
+            controller.setRatings(ratingData.filtered(rate -> rate.getValuationID().equals(valuationId))); // REFACTOR
             controller.setCurrentValuation(valuation); // This is only thing you have to pass, check and refactor
         } catch (IOException e) {
             System.out.println("Error in the showValuationLayout !");
@@ -334,7 +370,7 @@ public class MainApp extends Application {
      * @param valuationId
      */
     public void deleteValuation(String valuationId) {
-        ratingData.removeAll(ratingData.filtered( rate -> rate.getValutationID().equals(valuationId)));
+        ratingData.removeAll(ratingData.filtered( rate -> rate.getValuationID().equals(valuationId)));
         valuationData.removeAll(valuationData.filtered((val -> val.getValuationId().equals(valuationId))));
         // Remember to delete all these things from the db also
     }
@@ -355,6 +391,79 @@ public class MainApp extends Application {
             valuationIds.forEach(valId -> deleteValuation(valId));
         } catch (NullPointerException e) {
             System.err.println("Null pointer exception into deleteValuations! Something is gone really wrong!");
+            e.printStackTrace();
+            System.exit(-1);
+        }
+    }
+
+    /**
+     * Returns the connection with the database.
+     * @return
+     */
+    public Connection getDatabaseConnection() { return databaseConnection; }
+
+    /**
+     * Loads the students data from the database.
+     */
+    private void loadStudents() {
+        try {
+            Statement statement = databaseConnection.createStatement();
+            String query = "SELECT id, firstName, lastName, course, birthday FROM students";
+            ResultSet results = statement.executeQuery(query);
+            while(results.next()){
+                String id = results.getString("id");
+                String fName = results.getString("firstName");
+                String lName = results.getString("lastName");
+                String course = results.getString("course");
+                //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                //formatter = formatter.withLocale(Locale.ITALIAN);
+                LocalDate bday = LocalDate.parse(results.getString("birthday"));
+                studentData.add(new Student(fName,lName,course,bday,id));
+            }
+        } catch (SQLException e) {
+            System.err.println("Cannot load students data - MainApp");
+            e.printStackTrace();
+            System.exit(-1);
+        }
+    }
+
+    /**
+     * Loads the valuations data from the database.
+     */
+    private void loadValuations() {
+        try {
+            Statement statement = databaseConnection.createStatement();
+            String query = "SELECT id, studentId, date FROM valuations";
+            ResultSet results = statement.executeQuery(query);
+            while(results.next()){
+                String valuationId = results.getString("id");
+                String studentId = results.getString("studentId");
+                LocalDate date = LocalDate.parse(results.getString("date"));
+                valuationData.add(new Valuation(studentId,valuationId,date));
+            }
+        } catch (SQLException e) {
+            System.err.println("Cannot load valuations data - MainApp");
+            e.printStackTrace();
+            System.exit(-1);
+        }
+    }
+
+    /**
+     * Loads the ratings data from the database.
+     */
+    private void loadRatings() {
+        try {
+            Statement statement = databaseConnection.createStatement();
+            String query = "SELECT valuationId, competence, rate FROM ratings";
+            ResultSet results = statement.executeQuery(query);
+            while(results.next()){
+                String valuationId = results.getString("valuationId");
+                String competence = results.getString("competence");
+                String rate = results.getString("rate");
+                ratingData.add(new Rating(valuationId, competence, rate));
+            }
+        } catch (SQLException e) {
+            System.err.println("Cannot load ratings data - MainApp");
             e.printStackTrace();
             System.exit(-1);
         }

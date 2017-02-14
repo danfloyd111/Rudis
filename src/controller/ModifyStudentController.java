@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Student;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 /**
@@ -61,8 +63,6 @@ public class ModifyStudentController {
             LocalDate bday = birthday.getValue();
             boolean go = false;
             if (fName!=null && lName!=null && bday!=null && crs!=null && bday.isBefore(LocalDate.now())) {
-                //Student student = new Student(fName, lName, crs, bday);
-                //mainApp.addStudent(student);
                 oldStudent.setFirstName(fName);
                 oldStudent.setLastName(lName);
                 oldStudent.setCourse(crs);
@@ -72,6 +72,21 @@ public class ModifyStudentController {
                 aHeader = "Operazione completata";
                 aContent = "Lo studente è stato correttamente modificato.";
                 go = true;
+                // Updating the database
+                try {
+                    String updateQuery = "UPDATE students SET firstName = '" + fName + "', "
+                            + "lastName = '" + lName + "', "
+                            + "course = '" + crs + "' , "
+                            + "birthday = '" + bday.toString() + "' "
+                            + "WHERE id = '" + oldStudent.getId() + "';";
+                    PreparedStatement statement = mainApp.getDatabaseConnection().prepareStatement(updateQuery);
+                    statement.executeUpdate();
+
+                } catch (SQLException e) {
+                    System.err.println("Error in ModifyStudentController - Cannot update the database");
+                    e.printStackTrace();
+                    System.exit(-1);
+                }
             } else {
                 aType = Alert.AlertType.ERROR;
                 aTitle = "Errore";

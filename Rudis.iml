@@ -7,6 +7,13 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="itext-pdfa-5.5.10" level="project" />
+    <orderEntry type="library" name="itext-xtra-5.5.10" level="project" />
+    <orderEntry type="library" name="itext-xtra-5.5.10-javadoc" level="project" />
+    <orderEntry type="library" name="itext-xtra-5.5.10-sources" level="project" />
+    <orderEntry type="library" name="itextpdf-5.5.10" level="project" />
+    <orderEntry type="library" name="itextpdf-5.5.10-javadoc" level="project" />
+    <orderEntry type="library" name="itextpdf-5.5.10-sources" level="project" />
+    <orderEntry type="library" name="sqlite-jdbc-3.16.1" level="project" />
   </component>
 </module>
-

@@ -86,8 +86,8 @@ public class StudentController {
         Student student = studentData.get(0); // questo per fare una bella cosa dovrebbe essere la main app ad iniettarlo
         firstNameLabel.setText(student.getFirstName()); // questo per fare una bella cosa dovrebbe essere la main app ad iniettarlo
         lastNameLabel.setText(student.getLastName()); // questo per fare una bella cosa dovrebbe essere la main app ad iniettarlo
-        birthdayLabel.setText("Nato il ".concat(student.getBirthday().toString())); // questo per fare una bella cosa dovrebbe essere la main app ad iniettarlo
-        courseLabel.setText(student.getCourse()); // questo per fare una bella cosa dovrebbe essere la main app ad iniettarlo
+        birthdayLabel.setText("Nato/a il ".concat(student.getBirthday().toString())); // questo per fare una bella cosa dovrebbe essere la main app ad iniettarlo
+        courseLabel.setText("Classe " + student.getCourse()); // questo per fare una bella cosa dovrebbe essere la main app ad iniettarlo
     }
 
     /**

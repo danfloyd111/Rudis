@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Student;
 
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Random;
 
@@ -61,6 +63,7 @@ public class AddStudentController {
             if (fName!=null && lName!=null && bday!=null && crs!=null && bday.isBefore(LocalDate.now())) {
                 Student student = new Student(fName, lName, crs, bday, generateStudentId());
                 mainApp.addStudent(student);
+                store(student);
                 aType = Alert.AlertType.INFORMATION;
                 aTitle = "Successo";
                 aHeader = "Operazione completata";
@@ -93,5 +96,23 @@ public class AddStudentController {
         Random generator = new Random();
         int rand = generator.nextInt();
         return firstName.getText() + lastName.getText() + rand;
+    }
+
+    /**
+     * Stores the student into the database.
+     * @param student
+     */
+    private void store(Student student) {
+        String insertQuery = "INSERT INTO students "
+                + "VALUES ('" + student.getId() + "', '" + student.getFirstName() + "', '" + student.getLastName()
+                + "', '" + student.getCourse() + "', '" + student.getBirthday().toString() + "');";
+        try {
+            Statement statement = mainApp.getDatabaseConnection().createStatement();
+            statement.execute(insertQuery);
+        } catch (SQLException e) {
+            System.err.println("Error in addStudentController() - couldn't store into the database");
+            e.printStackTrace();
+            System.exit(-1);
+        }
     }
 }

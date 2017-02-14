@@ -1,5 +1,9 @@
 package controller;
 
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -8,6 +12,9 @@ import model.Rating;
 import model.Valuation;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by dan on 10/02/17.
@@ -87,8 +94,26 @@ public class ValuationController {
             FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Pdf files (*.pdf","*.pdf");
             File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
             if(file!=null){
-                // Here we will do the real stuff
-                System.out.println(file.getAbsolutePath());
+                try {
+                    PdfReader reader = new PdfReader("resources/pdf/rudis-template.pdf");
+                    PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(file.getAbsolutePath()), '\0',true);
+                    AcroFields form = stamper.getAcroFields();
+                    form.setField("first",firstName.getText());
+                    form.setField("last",lastName.getText());
+                    form.setField("course",course.getText());
+                    form.setField("birthday",birthday.getText().split(" ")[2]);
+                    ObservableList<Rating> ratings = ratingsTable.getItems();
+                    ArrayList<String> votes = new ArrayList<>();
+                    ratings.forEach(rate -> votes.add(rate.getRate()));
+                    for(int i=0; i< votes.size(); i++)
+                        form.setField("c"+(i+1),votes.get(i));
+                    stamper.close();
+                    reader.close();
+
+                } catch (IOException | DocumentException e) {
+                    System.err.println("Error during the export of the pdf certificate, in initalize() - ValuationController");
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -112,13 +137,13 @@ public class ValuationController {
      * Birthday setter.
      * @param date
      */
-    public void setBirthday(String date) { birthday.setText("nato il ".concat(date)); }
+    public void setBirthday(String date) { birthday.setText("Nato/a il ".concat(date)); }
 
     /**
      * Course setter.
      * @param crs
      */
-    public void setCourse(String crs) { course.setText(crs); }
+    public void setCourse(String crs) { course.setText(" Classe " + crs); }
 
     /**
      * Valuation id setter.

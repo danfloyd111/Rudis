@@ -9,6 +9,8 @@ import model.Rating;
 import model.Student;
 import model.Valuation;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.function.Predicate;
@@ -62,11 +64,11 @@ public class ModifyValuationController {
         Student student = mainApp.getStudentData().filtered(s -> s.getId().equals(currentValuation.getStudentId())).get(0);
         firstName.setText(student.getFirstName());
         lastName.setText(student.getLastName());
-        course.setText(student.getCourse());
+        course.setText("Classe " + student.getCourse());
         birthday.setText(student.getBirthday().toString());
         ratingDate.setValue(currentValuation.getValuationDate());
         // The next instructions have to stay here because they needs the currentValuation
-        ObservableList<Rating> currentRatings = mainApp.getRatingData().filtered(r -> r.getValutationID().equals(currentValuation.getValuationId()));
+        ObservableList<Rating> currentRatings = mainApp.getRatingData().filtered(r -> r.getValuationID().equals(currentValuation.getValuationId()));
         ratingsTable.setItems(currentRatings);
         competenceColumn.setCellValueFactory(cellValue -> cellValue.getValue().competenceProperty());
         ratingsColumn.setCellValueFactory(cellValue -> cellValue.getValue().rateProperty());
@@ -83,7 +85,7 @@ public class ModifyValuationController {
         // Setting the behaviour of the buttons
         cancelButton.setOnAction(event -> {mainApp.showValuationLayout(currentValuation.getValuationId());});
         modifyButton.setOnAction((ActionEvent event) -> {
-            ObservableList<Rating> currentRatings = mainApp.getRatingData().filtered(r -> r.getValutationID().equals(currentValuation.getValuationId()));
+            ObservableList<Rating> currentRatings = mainApp.getRatingData().filtered(r -> r.getValuationID().equals(currentValuation.getValuationId()));
             ObservableList<Rating> newRatings = ratingsTable.getItems();
             Predicate<Rating> pred = rate -> !rate.getRate().equals("A") && !rate.getRate().equals("B")
                     && !rate.getRate().equals("C") && !rate.getRate().equals("D");
@@ -104,12 +106,33 @@ public class ModifyValuationController {
                 newRatings.forEach(rate -> nrlist.add(rate));
                 crlist.sort(Comparator.comparing(Rating::getCompetence));
                 nrlist.sort(Comparator.comparing(Rating::getCompetence));
-                //currentRatings.sort(Comparator.comparing(Rating::getCompetence));
-                //newRatings.sort(Comparator.comparing(Rating::getCompetence));
                 // Now we can refresh the data
                 for(int i = 0; i < crlist.size(); i++)
                     crlist.get(i).setRate(nrlist.get(i).getRate());
-                // TODO: Here we have to refresh also the Database !!!
+                // Updating the database
+                nrlist.forEach(rate -> {
+                    try {
+                        String updateQuery = "UPDATE ratings SET rate = '" + rate.getRate() + "' "
+                                + "WHERE valuationId = '" + rate.getValuationID() + "' "
+                                + "AND competence = '" + rate.getCompetence() + "';";
+                        PreparedStatement statement = mainApp.getDatabaseConnection().prepareStatement(updateQuery);
+                        statement.executeUpdate();
+                    } catch (SQLException e) {
+                        System.err.println("Error in ModifyValuationController - Cannot update the ratings");
+                        e.printStackTrace();
+                        System.exit(-1);
+                    }
+                });
+                try {
+                    String updateQuery = "UPDATE valuations SET date = '" + ratingDate.getValue().toString() + "' "
+                            + "WHERE id = '" + currentValuation.getValuationId() + "';";
+                    PreparedStatement statement = mainApp.getDatabaseConnection().prepareStatement(updateQuery);
+                    statement.executeUpdate();
+                } catch (SQLException e) {
+                    System.err.println("Error in ModifyValuationController - Cannot update the valuation");
+                    e.printStackTrace();
+                    System.exit(-1);
+                }
             } else {
                 atype = Alert.AlertType.ERROR;
                 atitle = "Errore";

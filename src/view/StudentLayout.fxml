@@ -43,7 +43,7 @@
                         <Font size="25.0" />
                      </font>
                   </Label>
-                  <Label fx:id="birthdayLabel" layoutX="74.0" layoutY="10.0" text="Nato il 01/01/2001">
+                  <Label fx:id="birthdayLabel" layoutX="74.0" layoutY="10.0" text="Nato/a il 01/01/2001">
                      <font>
                         <Font size="25.0" />
                      </font>

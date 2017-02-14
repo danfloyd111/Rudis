@@ -4,7 +4,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RootLayoutController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="750.0" minWidth="850.0" prefHeight="750.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RootLayoutController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
@@ -12,13 +12,13 @@
                     <items>
                   <MenuItem mnemonicParsing="false" onAction="#handleHome" text="Home" />
                         <MenuItem mnemonicParsing="false" onAction="#handleStudentVisualization" text="Lista studenti" />
-                  <MenuItem mnemonicParsing="false" text="Competenze" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Competenze" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Configura">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#handleAddStudent" text="Aggiungi studente" />
-                  <MenuItem mnemonicParsing="false" text="Aggiungi competenza" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Aggiungi competenza" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Aiuto">

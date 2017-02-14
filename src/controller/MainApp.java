@@ -51,6 +51,8 @@ public class MainApp extends Application {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Rudis - Versione 0.1");
         this.primaryStage.getIcons().add(new Image("file:resources/images/rudis-icon.png"));
+        primaryStage.setMinHeight(750);
+        primaryStage.setMinWidth(850);
         initRootLayout();
         showHomeLayout();
     }

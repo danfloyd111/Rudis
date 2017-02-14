@@ -14,9 +14,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StudentController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StudentController">
    <children>
-      <VBox alignment="CENTER" layoutX="238.0" layoutY="82.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" layoutX="238.0" layoutY="82.0" prefHeight="650.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label text="Dati alunno:">
                <font>
@@ -30,22 +30,22 @@
                <children>
                   <Label fx:id="firstNameLabel" text="Nome">
                      <font>
-                        <Font size="30.0" />
+                        <Font size="25.0" />
                      </font>
                   </Label>
                   <Label fx:id="lastNameLabel" text="Cognome">
                      <font>
-                        <Font size="30.0" />
+                        <Font size="25.0" />
                      </font>
                   </Label>
                   <Label fx:id="courseLabel" layoutX="42.0" layoutY="10.0" text="Classe 1 A">
                      <font>
-                        <Font size="15.0" />
+                        <Font size="25.0" />
                      </font>
                   </Label>
                   <Label fx:id="birthdayLabel" layoutX="74.0" layoutY="10.0" text="Nato il 01/01/2001">
                      <font>
-                        <Font size="15.0" />
+                        <Font size="25.0" />
                      </font>
                   </Label>
                </children>
@@ -54,8 +54,11 @@
                <font>
                   <Font size="30.0" />
                </font>
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
             </Label>
-            <ListView fx:id="valuationList" prefHeight="200.0" prefWidth="200.0" />
+            <ListView fx:id="valuationList" prefHeight="400.0" prefWidth="200.0" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                <children>
                   <Button fx:id="rateButton" mnemonicParsing="false" text="Aggiungi valutazione" />

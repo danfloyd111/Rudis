@@ -4,7 +4,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="750.0" minWidth="850.0" prefHeight="750.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RootLayoutController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="750.0" minWidth="850.0" prefHeight="750.0" prefWidth="850.0" stylesheets="@theme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RootLayoutController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
@@ -23,8 +23,8 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Aiuto">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Guida" />
-                  <MenuItem mnemonicParsing="false" text="Info &amp; Disclaimer" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleGuide" text="Guida" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleDisclaimer" text="Info &amp; Disclaimer" />
                     </items>
                 </Menu>
             </menus>

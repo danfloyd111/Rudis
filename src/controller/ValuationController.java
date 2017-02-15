@@ -14,6 +14,9 @@ import model.Valuation;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -179,6 +182,18 @@ public class ValuationController {
      * Tells the main app to delete this valuation from the list and the db.
      */
     private void deleteValuation() {
+        // Deleting the record in the Database
+        try {
+            Statement stat =mainApp.getDatabaseConnection().createStatement();
+            stat.execute("PRAGMA foreign_keys = ON;");
+            String deleteQuery = "DELETE FROM valuations WHERE id = '" + currentValuation.getValuationId() + "';";
+            PreparedStatement statement = mainApp.getDatabaseConnection().prepareStatement(deleteQuery);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error in ValuationController - Cannot delete the record from the database");
+            e.printStackTrace();
+            System.exit(-1);
+        }
         // We need to save the id before the deletion to prevent a null pointer exception
         String studentId = currentValuation.getStudentId();
         mainApp.deleteValuation(currentValuation.getValuationId());

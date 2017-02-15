@@ -19,11 +19,15 @@ import model.Rating;
 import model.Student;
 import model.Valuation;
 
+import java.awt.*;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class MainApp extends Application {
 
@@ -57,9 +61,14 @@ public class MainApp extends Application {
         initRootLayout();
         showHomeLayout();
         // Database initialization
+        Properties properties = new Properties();
+        properties.setProperty("PRAGMA foreign_keys", "ON");
         databaseConnection = null;
         try {
-            databaseConnection = DriverManager.getConnection("jdbc:sqlite:resources/db/rudis.db");
+            databaseConnection = DriverManager.getConnection("jdbc:sqlite:resources/db/rudis.db", properties);
+            databaseConnection.setAutoCommit(true);
+            Statement statement = databaseConnection.createStatement();
+            statement.execute("PRAGMA foreign_keys = ON;");
             String studentCreationQuery = "CREATE TABLE IF NOT EXISTS students(\n"
                     + "id TEXT PRIMARY KEY NOT NULL,\n"
                     + "firstName TEXT NOT NULL,\n"
@@ -69,16 +78,17 @@ public class MainApp extends Application {
                     + ");";
             String valuationsCreationQuery = "CREATE TABLE IF NOT EXISTS valuations(\n"
                     + "id TEXT PRIMARY KEY NOT NULL,\n"
-                    + "studentId TEXT REFERENCES students ON UPDATE CASCADE ON DELETE CASCADE,\n"
-                    + "date TEXT NOT NULL\n"
+                    + "studentId TEXT NOT NULL,\n"
+                    + "date TEXT NOT NULL,\n"
+                    + "FOREIGN KEY(studentId) REFERENCES students(id) ON UPDATE CASCADE ON DELETE CASCADE\n"
                     + ");";
             String ratingsCreationQuery = "CREATE TABLE IF NOT EXISTS ratings(\n"
                     + "id INTEGER PRIMARY KEY NOT NULL,\n"
-                    + "valuationId TEXT REFERENCES valuations ON UPDATE CASCADE ON DELETE CASCADE,\n"
+                    + "valuationId TEXT NOT NULL,\n"
                     + "competence TEXT NOT NULL,\n"
-                    + "rate TEXT NOT NULL\n"
+                    + "rate TEXT NOT NULL,\n"
+                    + "FOREIGN KEY(valuationId) REFERENCES valuations(id) ON UPDATE CASCADE ON DELETE CASCADE\n"
                     + ");";
-            Statement statement = databaseConnection.createStatement();
             statement.execute(studentCreationQuery);
             statement.execute(valuationsCreationQuery);
             statement.execute(ratingsCreationQuery);
@@ -295,6 +305,16 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Opens the browser and shows the disclaimer.
+     */
+    public void showDisclaimer() { getHostServices().showDocument("resources/conf/disclaimer.html"); }
+
+    /**
+     * Opens the browser and shows the guide.
+     */
+    public void showGuide() { getHostServices().showDocument("resources/conf/guide.html"); }
 
 
     /**

@@ -97,8 +97,6 @@ public class ModifyValuationController {
             boolean go = true;
             if(ratingDate.getValue() != null && newRatings.filtered(pred).isEmpty()) {
                 currentValuation.setValuationDate(ratingDate.getValue());
-                // TODO: Before sorting you need to extract the data from currentRatings and newRatings and put into a modifiable list!!!
-                // TODO: Check this behaviour
                 // Sorting the ratings collections
                 ArrayList<Rating> crlist = new ArrayList<>();
                 ArrayList<Rating> nrlist = new ArrayList<>();

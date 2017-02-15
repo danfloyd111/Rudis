@@ -222,6 +222,7 @@ public class RateStudentController {
                 + rating.getRate() + "');";
         try {
             Statement statement = mainApp.getDatabaseConnection().createStatement();
+            statement.execute("PRAGMA foreign_keys = ON;");
             statement.execute(insertQuery);
         } catch (SQLException e) {
             System.err.println("Error in RateStudentController() - Cannot store rating");

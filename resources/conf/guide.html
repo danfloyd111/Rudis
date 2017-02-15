@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<link lang="en">
+<head>
+    <style>
+        body {
+            font-family: ubuntu;
+            font-size: 110%;
+        }
+
+        h1 {
+            color: #91C951;
+        }
+
+        h3 {
+            color: #22A8B3;
+        }
+
+        p {
+            text-align: justify;
+        }
+
+        #footer {
+            font-size: 80%;
+            color: #22A8B3;
+            align: center;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>Guida - Rudis</title>
+</head>
+<link>
+
+<h1 align="center">Guida all'uso di Rudis</h1>
+
+<div align="center">
+    <img src="../images/rudis-icon.png">
+</div>
+
+<h3>Visualizzare la lista studenti</h3>
+<p>
+    Dal menù principale selezionare "Visualizza", poi selezionare la voce "Lista studenti". Al primo accesso la lista sarà vuota, man mano che gli studenti verranno aggiunti
+    al database verranno visualizzati nella parte centrale del riquadro.
+</p>
+<br>
+<h3>Torna alla Home</h3>
+<p>
+    Dal menù principale selezionare "Home".
+</p>
+<br>
+<h3>Visualizza la panoramica di uno studente</h3>
+<link>
+    Dal menù principale selezionare "Visualizza", poi selezionare la voce "Lista studenti". Se la lista studenti <b>NON</b> è vuota basta selezionare uno studente ed effettuare
+    un "doppio click" sullo studente scelto. A questo punto si aprirà la panoramica studente dove è possibile leggere i dati e visualizzare la lista delle valutazioni che sono
+    state effettuate per quello studente, da questa posizione è possibile effettuare anche la <a href="#modifica-studente">modifica dei dati</a> dello studente,
+    <a href="#aggiungi-valutazione">aggiungere una valutazione</a> per lo studente, <a href="#visualizza-valutazione">visualizzare una valutazione</a>
+    od <a href="#elimina-studente">eliminare lo studente</a> dal database.
+</p>
+<br>
+<h3 id="#aggiungi-studente">Aggiungi uno studente</h3>
+<p>
+    Dal menù principale selezionare "Configura", poi selezionare la voce "Aggiungi uno studente", a questo punto si aprirà una schermata contente una form con i campi <b>obbligatori</b>:
+    Nome, Cognome, Classe e Data di Nascita. E' possibile scegliere la classe dal menù a scelta multipla e cliccando sull'icona del calendario si può comodamente scegliere la data di
+    nascita, è fondamentale che tale data sia <b>antecedente</b> alla data odierna, altrimenti il sistema segnalerà un errore e non sarà possibile completare l'aggiunta. Se tutto va a buon
+    fine viene visualizzato un messaggio di conferma e lo studente viene memorizzato nel database.
+</p>
+<br>
+<h3 id="visualizza-valutazione">Visualizza una valutazione</h3>
+<p>
+    Se la lista valutazioni all'interno della panoramica studente <b>non</b> è vuota, basta selezionare una valutazione ed effettuare un "doppio click" sulla valutazione scelta. A questo
+    punto si aprirà la panoramica della valutazione dove è possibile leggere i dati dello studente e le votazioni relative alle competenze. Da questa posizione è possibile anche
+    <a href="#esporta">esportare</a> la valutazione in un file formato "pdf", <a href="#modifica-valutazione">modificare la valutazione</a> o <a href="#elimina-valutazione">eliminare
+    la valutazione</a> dal database.
+</p>
+<br>
+<h3 id="modifica-studente">Modificare i dati di uno studente</h3>
+<p>
+    Cliccando sull'apposito bottone nella panoramica studente si aprirà una schermata simile a quella di <a href="#aggiungi-studente">aggiunta</a>, a questo punto basta modificare i parametri
+    secondo le proprie esigenze e premere "Modifica" per salvare i dati nel database o "Annulla" per tornare alla vista precedente annullando le modifiche.
+</p>
+<br>
+<h3 id="aggiungi-valutazione">Aggiungi una valutazione</h3>
+<p>
+    Cliccando sull'apposito bottone nella panoramica studente si aprirà una schermata dove dovrete inserire i voti per ogni singola competenza elencata nella tabella e la data della
+    valutazione. E' importante che il voto per ogni competenza sia indicato con una <b>singola lettera</b> tra {A, B, C, D} e che il campo relativo alla data <b>non venga lasciato vuoto</b>,
+    a questo punto basta cliccare il bottone "Valuta" e se l'operazione va a buon fine viene visualizzato un messaggio di conferma e la valutazione viene registrata nel database. In caso di un
+    errore viene visualizzato un messaggio di avvertimento che esorta a controllare che i voti inseriti siano conformi alle specifiche e che la data sia corretta. E' possibile anche annullare
+    l'intera operazione in qualsiasi momento premendo il pulsante "Annulla".
+</p>
+<br>
+<h3 id="elimina-studente">Elimina uno studente</h3>
+<p>
+    Premendo il pulstante di eliminazione nella panoramica studente, viene visualizzato un messaggio di conferma a cui è possibile rispondere con "Ok" o "Annulla", nel primo caso lo studente
+    e tutti i dati relativi alle sue valutazioni vengono <b>definitivamente eliminate</b> dal database.
+</p>
+<br>
+<h3 id="esporta">Esporta una valutazione</h3>
+<p>
+    Cliccando sull'apposito bottone nella <a href="#visualizza-valutazione">panoramica valutazione</a> si aprirà una finestra di dialogo che chiederà di scegliere un nome ed una posizione
+    per il salvataggio del file, una volta completato il dialogo basta premere su "Salva" ed il certificato della valutazione viene automaticamente creato, esportato e salvato nella
+    posizione richiesta dall'utente.
+</p>
+<br>
+<h3 id="modifica-valutazione">Modifica una valutazione</h3>
+<p>
+    Cliccando sull'apposito bottone nella <a href="#visualizza-valutazione">panoramica valutazione</a> si aprirà una schermata simile a quella di <a href="#aggiungi-valutazione">aggiunta di
+    una valutazione</a> che risponde alle stesse specifiche per quanto riguarda il completamento dei campi obbligatori. Una volta effettuate le modifiche necessarie basta premere "Ok"
+    per confermare la modifica dei dati nel database, o "Annulla" per annullare le modifiche fatte fino a quel momento.
+</p>
+<br>
+<h3 id="elimina-valutazione">Elimina una valutazione</h3>
+<p>
+    Premendo il pulstante di eliminazione nella panoramica valutazione, viene visualizzato un messaggio di conferma a cui è possibile rispondere con "Ok" o "Annulla", nel primo caso la
+    valutazione viene <b>definitivamente eliminata</b> dal database.
+</p>
+
+<div id="footer" align="center">
+    <p>
+        Per ulteriori dubbi, segnalazioni di bug ed informazioni generali consulta il <a href="disclaimer.html">disclaimer</a>.
+    </p>
+</div>
+</body>
+
+</html>

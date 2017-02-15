@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 
 /**
  * Created by dan on 06/02/17.
+ * @author Daniele Paolini
+ * Controller class for the root layout.
  */
 public class RootLayoutController {
 
@@ -35,4 +37,16 @@ public class RootLayoutController {
      */
     @FXML
     private void handleAddStudent() { mainApp.showAddStudentLayout(); }
+
+    /**
+     * Opens the browser and shows the disclaimer.
+     */
+    @FXML
+    private void handleDisclaimer() { mainApp.showDisclaimer(); }
+
+    /**
+     * Opens the browser and shows the guide.
+     */
+    @FXML
+    private void handleGuide() { mainApp.showGuide(); }
 }

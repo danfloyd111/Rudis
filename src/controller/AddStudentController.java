@@ -108,6 +108,7 @@ public class AddStudentController {
                 + "', '" + student.getCourse() + "', '" + student.getBirthday().toString() + "');";
         try {
             Statement statement = mainApp.getDatabaseConnection().createStatement();
+            statement.execute("PRAGMA foreign_keys = ON;");
             statement.execute(insertQuery);
         } catch (SQLException e) {
             System.err.println("Error in addStudentController() - couldn't store into the database");

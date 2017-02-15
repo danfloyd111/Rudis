@@ -1,0 +1,24 @@
+.background {
+    -fx-background-color: #91C951;
+}
+
+.label {
+    -fx-font-family: "Ubuntu";
+}
+
+.button {
+    -fx-font-family: "Ubuntu";
+}
+
+.list-view {
+    -fx-font-family: "Ubuntu";
+    -fx-alignment: center;
+    -fx-border-color: #22A8B3;
+    -fx-border-width: 5px;
+}
+
+.list-cell {
+    -fx-alignment: center;
+    -fx-font-size: 15px;
+    -fx-background-color: lightgreen;
+}

@@ -6,8 +6,14 @@ import javafx.scene.control.*;
 import model.Student;
 import model.Valuation;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  * Created by dan on 03/02/17.
+ * @author Daniele Paolini
+ * Controller class for the student view.
  */
 public class StudentController {
 
@@ -94,6 +100,18 @@ public class StudentController {
      * Tells the main application to delete the current student indexed by local index variable
      */
     private void deleteStudent() {
+        // Deleting the student record in the database
+        try {
+            Statement stat =mainApp.getDatabaseConnection().createStatement();
+            stat.execute("PRAGMA foreign_keys = ON;");
+            String deleteQuery = "DELETE FROM students WHERE id = '" + studentId + "';";
+            PreparedStatement statement = mainApp.getDatabaseConnection().prepareStatement(deleteQuery);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error in StudentController - Cannot delete the record from the database");
+            e.printStackTrace();
+            System.exit(-1);
+        }
         mainApp.removeStudent(studentId);
         mainApp.deleteValutations(studentId);
         mainApp.showStudentListLayout();

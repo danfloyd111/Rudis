@@ -60,7 +60,7 @@ public class AddStudentController {
             String aTitle, aHeader, aContent;
             boolean go = false;
             LocalDate bday = birthday.getValue();
-            if (fName!=null && lName!=null && bday!=null && crs!=null && bday.isBefore(LocalDate.now())) {
+            if (!fName.isEmpty() && !lName.isEmpty() && bday!=null && !crs.isEmpty() && bday.isBefore(LocalDate.now())) {
                 Student student = new Student(fName, lName, crs, bday, generateStudentId());
                 mainApp.addStudent(student);
                 store(student);

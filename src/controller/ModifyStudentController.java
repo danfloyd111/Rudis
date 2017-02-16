@@ -62,7 +62,7 @@ public class ModifyStudentController {
             String aTitle, aHeader, aContent;
             LocalDate bday = birthday.getValue();
             boolean go = false;
-            if (fName!=null && lName!=null && bday!=null && crs!=null && bday.isBefore(LocalDate.now())) {
+            if (!fName.isEmpty() && !lName.isEmpty() && bday!=null && !crs.isEmpty() && bday.isBefore(LocalDate.now())) {
                 oldStudent.setFirstName(fName);
                 oldStudent.setLastName(lName);
                 oldStudent.setCourse(crs);

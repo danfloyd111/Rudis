@@ -94,7 +94,8 @@ public class ValuationController {
         exportButton.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Salva con nome");
-            FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Pdf files (*.pdf","*.pdf");
+            FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Pdf files (*.pdf)","*.pdf");
+            fileChooser.getExtensionFilters().add(filter);
             File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
             if(file!=null){
                 try {

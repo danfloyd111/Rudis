@@ -19,10 +19,7 @@ import model.Rating;
 import model.Student;
 import model.Valuation;
 
-import java.awt.*;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -110,7 +107,7 @@ public class MainApp extends Application {
         try{
             // Load root layout from fxml
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("../view/RootLayout.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
             // Show the scene containing the root layout
             Scene scene = new Scene(rootLayout);
@@ -132,7 +129,7 @@ public class MainApp extends Application {
         try {
             //Load home layout from fxml
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("../view/HomeLayout.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/HomeLayout.fxml"));
             AnchorPane homeLayout = (AnchorPane) loader.load();
             //Set home into the center of the root layout
             rootLayout.setCenter(homeLayout);
@@ -149,7 +146,7 @@ public class MainApp extends Application {
         try {
             //Load student layout from fxml
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("../view/StudentLayout.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/StudentLayout.fxml"));
             AnchorPane studentLayout = (AnchorPane) loader.load();
             //Set student view into the center of the root layout
             rootLayout.setCenter(studentLayout);
@@ -170,7 +167,7 @@ public class MainApp extends Application {
         try {
             // Load student layout from fxml
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("../view/StudentListLayout.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/StudentListLayout.fxml"));
             AnchorPane studentLayout = (AnchorPane) loader.load();
             // Set student view into the center of the root layout
             rootLayout.setCenter(studentLayout);
@@ -190,7 +187,7 @@ public class MainApp extends Application {
         try {
             // Load the specific layout
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("../view/AddStudentLayout.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/AddStudentLayout.fxml"));
             AnchorPane addStudentLayout = (AnchorPane) loader.load();
             // Set this view into the center of the root layout
             rootLayout.setCenter(addStudentLayout);
@@ -211,7 +208,7 @@ public class MainApp extends Application {
         try {
             // Load the layout
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("../view/ModifyStudentLayout.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/ModifyStudentLayout.fxml"));
             AnchorPane modifyStudentLayout = (AnchorPane) loader.load();
             // Set this view into the center of the root layout
             rootLayout.setCenter(modifyStudentLayout);
@@ -237,7 +234,7 @@ public class MainApp extends Application {
         try {
             // Load the layout
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("../view/RateStudentLayout.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/RateStudentLayout.fxml"));
             AnchorPane rateStudentLayout = (AnchorPane) loader.load();
             // Set this view into the center of the root layout
             rootLayout.setCenter(rateStudentLayout);
@@ -263,7 +260,7 @@ public class MainApp extends Application {
         try {
             // Load the layout
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("../view/ValuationLayout.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/ValuationLayout.fxml"));
             AnchorPane valuationLayout = (AnchorPane) loader.load();
             // Set this view into the center of the root layout
             rootLayout.setCenter(valuationLayout);
@@ -294,7 +291,7 @@ public class MainApp extends Application {
         try {
             // TODO: keep the comments in only one of the show... methods
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("../view/ModifyValuationLayout.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/ModifyValuationLayout.fxml"));
             // TODO: refactor the next two lines in one
             AnchorPane modifyValuationLayout = (AnchorPane) loader.load();
             rootLayout.setCenter(modifyValuationLayout);
@@ -309,12 +306,24 @@ public class MainApp extends Application {
     /**
      * Opens the browser and shows the disclaimer.
      */
-    public void showDisclaimer() { getHostServices().showDocument("resources/conf/disclaimer.html"); }
+    public void showDisclaimer() {
+        String os = System.getProperty("os.name");
+        String uri = "resources/conf/disclaimer.html";
+        if(os.startsWith("Windows"))
+            uri = "resources\\conf\\disclaimer.html";
+        getHostServices().showDocument(uri);
+    }
 
     /**
      * Opens the browser and shows the guide.
      */
-    public void showGuide() { getHostServices().showDocument("resources/conf/guide.html"); }
+    public void showGuide() {
+        String os = System.getProperty("os.name");
+        String uri = "resources/conf/guide.html";
+        if(os.startsWith("Windows"))
+            uri = "resources\\conf\\guide.html";
+        getHostServices().showDocument(uri);
+    }
 
 
     /**

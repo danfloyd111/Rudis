@@ -1,0 +1,29 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="Rudis">
+    <output-path>$PROJECT_DIR$/out/artifacts/Rudis</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="controller.MainApp" />
+        <option name="description" value="Piattaforma per la gestione della Rubrica delle Competenze." />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="title" value="Rudis" />
+        <option name="vendor" value="Daniele Paolini" />
+        <option name="version" value="0.1" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="Rudis.jar">
+        <element id="module-output" name="Rudis" />
+      </element>
+      <element id="directory" name="resources">
+        <element id="dir-copy" path="$PROJECT_DIR$/resources" />
+      </element>
+      <element id="directory" name="libs">
+        <element id="file-copy" path="$PROJECT_DIR$/libs/itextpdf-5.5.10.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/itext-pdfa-5.5.10.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/itext-xtra-5.5.10.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/sqlite-jdbc-3.16.1.jar" />
+      </element>
+    </root>
+  </artifact>
+</component>
